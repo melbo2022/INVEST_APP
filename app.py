@@ -660,7 +660,7 @@ def CUMIPMT_loan():
         rate = float(request.form.get('input1'))
         nper = float(request.form.get('input2'))
         pv = float(request.form.get('input3'))
-        fv = float(request.form.get('input4'))
+        #fv = float(request.form.get('input4'))
         speriod = int(request.form.get('input5'))
         eperiod = int(request.form.get('input6'))
         when = int(request.form.get('input7'))   
@@ -669,11 +669,11 @@ def CUMIPMT_loan():
        # cumipmtがnumpyで使用できないためipmtより計算する-------------------------------
         cumipmt = 0
         for r in range(speriod, eperiod + 1):
-            ipmt = npf.ipmt(rate / 12, r, nper * 12, pv, fv, when)
+            ipmt = npf.ipmt(rate / 12, r, nper * 12, pv, 0, when)
             cumipmt = cumipmt + int(ipmt)
 
     #グラフ用に算出----------------------------------------------------------------------
-        pmt=npf.pmt(rate/12,nper*12,pv,fv,when)
+        pmt=npf.pmt(rate/12,nper*12,pv,0,when)
         pmt=int(pmt)   
         nper=int(nper)*12
     #------------------------------------------------------------------------------------
@@ -694,7 +694,7 @@ def CUMIPMT_loan():
         x_year_list.append(last_year)
 
         y_year_list = y_list[11::12]
-        y_year_list.append(fv)
+        y_year_list.append(0)
 
        
         graph_html = generate_plot(x_year_list, y_year_list, x_label, y_label, title)
@@ -736,7 +736,7 @@ def CUMPRINC_loan():
         rate = float(request.form.get('input1'))
         nper = float(request.form.get('input2'))
         pv = float(request.form.get('input3'))
-        fv = float(request.form.get('input4'))
+        #fv = float(request.form.get('input4'))
         speriod = int(request.form.get('input5'))
         eperiod = int(request.form.get('input6'))
         when = int(request.form.get('input7'))   
@@ -745,11 +745,11 @@ def CUMPRINC_loan():
        # cumprincがnumpyで使用できないためppmtより計算する
         cumprinc = 0
         for r in range(speriod, eperiod + 1):
-            ppmt = npf.ppmt(rate / 12, r, nper * 12, pv, fv, when)
+            ppmt = npf.ppmt(rate / 12, r, nper * 12, pv, 0, when)
             cumprinc = cumprinc + int(ppmt)
 
     #グラフ用に算出----------------------------------------------------------------------
-        pmt=npf.pmt(rate/12,nper*12,pv,fv,when)
+        pmt=npf.pmt(rate/12,nper*12,pv,0,when)
         pmt=int(pmt)   
         nper=int(nper)*12
     #------------------------------------------------------------------------------------
@@ -770,7 +770,7 @@ def CUMPRINC_loan():
         x_year_list.append(last_year)
 
         y_year_list = y_list[11::12]
-        y_year_list.append(fv)
+        y_year_list.append(0)
 
        
         graph_html = generate_plot(x_year_list, y_year_list, x_label, y_label, title)
