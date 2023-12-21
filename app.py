@@ -120,7 +120,6 @@ def NPER_all():
 
             x_list = list(range(1, nper + 1))
             y_list = [npf.fv(rate / 12, k, pmt, -pv, when) for k in x_list]
-            
 
         if request.path == '/NPER_loan':
             nper, nper_year_round = calculate_nper(rate, -pmt, pv, fv, when)
@@ -196,12 +195,13 @@ def PV_all():
 
         x_list = list(range(1, nper + 1))
 
+        #????????????????????????????????????????????????????????????????????????????
         if request.path == '/PV_pen':               
             y_list = [-(npf.fv(rate / 12, k, -pmt, pv, when)) for k in x_list]
 
         elif request.path == '/PV_loan': 
             y_list = [npf.fv(rate / 12, k, -pmt, pv, when) for k in x_list]
-        
+        #??????????????????????????????????????????????????????????????????????????????
 
         x_year_list = []
         for i in x_list:
@@ -343,11 +343,32 @@ def PMT_all():
         fv = float(request.form.get('input4'))
         when = int(request.form.get('input5'))   
 
-        pmt = calculate_pmt( rate,nper,pv,fv,when)
-        nper=int(nper)*12
+        #??????????????????????????????????????????????????????????????????
+        if request.path == '/PMT_depo':
+            pmt = calculate_pmt( rate,nper,-pv,fv,when)
+            nper=int(nper)*12
+            pmt=-pmt
 
-        x_list = list(range(1, nper + 1))
-        y_list = [npf.fv(rate / 12, k, pmt, pv, when) for k in x_list]
+            x_list = list(range(1, nper + 1))
+            y_list = [npf.fv(rate / 12, k, -pmt, -pv, when) for k in x_list]
+
+        elif request.path == '/PMT_loan':
+            pmt = calculate_pmt( rate,nper,pv,fv,when)
+            nper=int(nper)*12
+            pmt=-pmt
+
+            x_list = list(range(1, nper + 1))
+            y_list = [npf.fv(rate / 12, k, -pmt, pv, when) for k in x_list]
+
+        elif request.path == '/PMT_pen':
+            pmt = calculate_pmt( rate,nper,-pv,fv,when)
+            nper=int(nper)*12
+
+            x_list = list(range(1, nper + 1))
+            y_list = [npf.fv(rate / 12, k, pmt, -pv, when) for k in x_list]
+
+        #?????????????????????????????????????????????????????????????????????????????/
+
 
         x_year_list = []
         for i in x_list:
@@ -424,12 +445,30 @@ def RATE_all():
         fv = float(request.form.get('input4'))
         when = int(request.form.get('input5'))   
 
-        rate = calculate_rate(nper,pmt,pv,fv,when)
-        nper=int(nper)*12
-        
+        #???????????????????????????????????????????????????????????????????????
+        if request.path == '/RATE_depo':
 
-        x_list = list(range(1, nper + 1))
-        y_list = [npf.fv(rate / 12, k, pmt, pv, when) for k in x_list]
+            rate = calculate_rate(nper,-pmt,-pv,fv,when)
+            nper=int(nper)*12            
+
+            x_list = list(range(1, nper + 1))
+            y_list = [npf.fv(rate / 12, k, -pmt, -pv, when) for k in x_list]
+
+        elif request.path == '/RATE_pen':
+            rate = calculate_rate(nper,pmt,-pv,fv,when)
+            nper=int(nper)*12            
+
+            x_list = list(range(1, nper + 1))
+            y_list = [npf.fv(rate / 12, k, pmt, -pv, when) for k in x_list]
+
+
+        elif request.path == '/RATE_loan':
+            rate = calculate_rate(nper,-pmt,pv,fv,when)
+            nper=int(nper)*12            
+
+            x_list = list(range(1, nper + 1))
+            y_list = [npf.fv(rate / 12, k, -pmt, pv, when) for k in x_list]
+        #????????????????????????????????????????????????????????????????????????????
 
         x_year_list = []
         for i in x_list:
@@ -489,6 +528,7 @@ def PPMT_loan():
 
         ppmt= calculate_ppmt(rate,per,nper,pv,fv,when)
         ppmt=int(ppmt)
+        ppmt=-ppmt
 
         pmt=npf.pmt(rate/12,nper*12,pv,fv,when)
         pmt=int(pmt)       
@@ -557,9 +597,10 @@ def IPMT_loan():
 
         ipmt= calculate_ipmt(rate,per,nper,pv,fv,when)
         ipmt=int(ipmt)
+        ipmt=-ipmt
 
         pmt=npf.pmt(rate/12,nper*12,pv,fv,when)
-        pmt=int(pmt)       
+        pmt=int(pmt)   
 
         nper=int(nper)*12
         
@@ -663,7 +704,7 @@ def CUMIPMT_loan():
         session.clear()
 
         # pmtを3桁区切りにフォーマット
-        formatted_cumipmt = '{:,.0f}'.format(cumipmt)
+        formatted_cumipmt = '{:,.0f}'.format(-cumipmt)
 
        
         return render_template(template, cumipmt=formatted_cumipmt, graph_html=graph_html, title=title, url_name=url_name)
@@ -739,7 +780,7 @@ def CUMPRINC_loan():
         session.clear()
 
         # pmtを3桁区切りにフォーマット
-        formatted_cumprinc = '{:,.0f}'.format(cumprinc)
+        formatted_cumprinc = '{:,.0f}'.format(-cumprinc)
 
        
         return render_template(template, cumprinc=formatted_cumprinc, graph_html=graph_html, title=title, url_name=url_name)

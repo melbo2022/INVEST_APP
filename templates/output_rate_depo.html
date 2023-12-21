@@ -79,16 +79,16 @@
             </div>
             <br>
             <div style="display: flex; flex-direction: row; align-items: center;">
-                <input type="text" name="input2" id="input2" style="margin-left: 1cm;" placeholder="-50000"
+                <input type="text" name="input2" id="input2" style="margin-left: 1cm;" placeholder="50000"
                     value="{{ request.form['input2'] }}">
-                <label for="input2" style="margin-left: 0.5cm;">積立額（月額）<マイナス入力></label>
+                <label for="input2" style="margin-left: 0.5cm;">積立額（月額）</label>
                 <div class="text-to-hide" style="margin-left: 3cm; cursor: pointer;"
                     onclick="moveToInputField('input2')">←　毎月の積立額を入力してください</div>
             </div>
             <br>
 
             <div style="display: flex; flex-direction: row; align-items: center;">
-                <input type="text" name="input3" id="input3" style="margin-left: 1cm;" placeholder="-1000000"
+                <input type="text" name="input3" id="input3" style="margin-left: 1cm;" placeholder="1000000"
                     value="{{ request.form['input3'] }}">
                 <label for="input3" style="margin-left: 0.5cm;">現在貯蓄額</label>
                 <div class="text-to-hide" style="margin-left: 3.9cm; cursor: pointer;"
