@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--------------------------------------------------------------------------------------------->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/invest.js') }}"></script>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+
+<script>
+    // JavaScript to hide the text when an h5 is clicked
+    document.addEventListener("DOMContentLoaded", function () {
+        const textToHide = document.getElementById("text-to-hide");
+        const h5Elements = document.querySelectorAll("h5[data-img-id]");
+
+        h5Elements.forEach(function (h5) {
+            h5.addEventListener("click", function () {
+                textToHide.style.display = "none";
+            });
+        });
+    });
+</script>
+
+<!------------------------------------------------------------------------------------------------->
+<div class="text-center">
+    <h3>{{inv_name}}</h3>
+</div>
+
+<div class="grid-container">
+    <div>
+
+        <div class="col-auto my-1 submit-button">
+            <H6 style="margin-left: 1cm;">選択メニューが正しければボタンをクリックしてください</H6>
+            <button type="submit" class="btn btn-primary" name="submit" style="margin-left: 4cm;">submit</button>
+            <h6 style="margin-left:4cm; margin-top:1cm;">イメージ図</h6>
+        </div>
+
+
+        <!-- 画像を表示 -->
+        <div class="positioned-text-container">
+            <div id="text-to-hide">右のメニューを選択してください<br>メニューをクリックするとイメージ図が表示されます</div>
+        </div>
+        <div>
+            <img id="PV_img" src="{{ url_for('static', filename='images/PV_loan.png') }}" alt="PV_loan.png" width="500"
+                height="300">
+        </div>
+        <div>
+            <img id="NPER_img" src="{{ url_for('static', filename='images/NPER_loan.png') }}" alt="NPER_loan.png"
+                width="500" height="300">
+        </div>
+        <div>
+            <img id="PMT_img" src="{{ url_for('static', filename='images/PMT_loan.png') }}" alt="PMT_loan.png"
+                width="500" height="300">
+        </div>
+        <div>
+            <img id="RATE_img" src="{{ url_for('static', filename='images/RATE_loan.png') }}" alt="RATE_loan.png"
+                width="500" height="300">
+        </div>
+
+        <div>
+            <img id="PPMT_img" src="{{ url_for('static', filename='images/PPMT_loan.png') }}" alt="RATE_loan.png"
+                width="500" height="300">
+        </div>
+
+        <div>
+            <img id="IPMT_img" src="{{ url_for('static', filename='images/IPMT_loan.png') }}" alt="RATE_loan.png"
+                width="500" height="300">
+        </div>
+
+        <div>
+            <img id="CUMIPMT_img" src="{{ url_for('static', filename='images/CUMIPMT_loan.png') }}" alt="RATE_loan.png"
+                width="500" height="300">
+        </div>
+
+        <div>
+            <img id="CUMPRINC_img" src="{{ url_for('static', filename='images/CUMPRINC_loan.png') }}"
+                alt="RATE_loan.png" width="500" height="300">
+        </div>
+
+    </div>
+
+    <div style="margin-top: 3cm;">
+        <h5 data-img-id="PV_img" data-page-url="PV_loan">どれくらい借りられるかを知りたい(PV)</h5>
+        <h5 data-img-id="NPER_img" data-page-url="/NPER_loan">借入金返済のために必要な返済期間を知りたい(NPER)</h5>
+        <h5 data-img-id="PMT_img" data-page-url="/PMT_loan">毎月の返済額を知りたい(PMT)</h5>
+        <h5 data-img-id="RATE_img" data-page-url="/RATE_loan">借入額・返済額・返済期間より借入金利の上限を知りたい(RATE)</h5>
+
+        <h5 data-img-id="PPMT_img" data-page-url="/PPMT_loan">指定した月の返済元金額を知りたい(PPMT)</h5>
+        <h5 data-img-id="IPMT_img" data-page-url="/IPMT_loan">指定した月の返済利息額を知りたい(IPMT)</h5>
+        <h5 data-img-id="CUMIPMT_img" data-page-url="/CUMIPMT_loan">指定した期間の返済利息累計額を知りたい(CUMIPMT)</h5>
+        <h5 data-img-id="CUMPRINC_img" data-page-url="/CUMPRINC_loan">指定した期間の返済元金累計額を知りたい(CUMPRINC)</h5>
+
+
+
+    </div>
+</div>
+
+{% endblock %}

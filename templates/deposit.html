@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!--------------------------------------------------------------------------------------------->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/invest.js') }}"></script>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<script>
+    // JavaScript to hide the text when an h5 is clicked
+    document.addEventListener("DOMContentLoaded", function () {
+        const textToHide = document.getElementById("text-to-hide");
+        const h5Elements = document.querySelectorAll("h5[data-img-id]");
+
+        h5Elements.forEach(function (h5) {
+            h5.addEventListener("click", function () {
+                textToHide.style.display = "none";
+            });
+        });
+    });
+</script>
+
+<!------------------------------------------------------------------------------------------------->
+<div class="text-center">
+    <h3>{{inv_name}}</h3>
+</div>
+
+<div class="grid-container">
+
+    <div>
+        <div class="col-auto my-1 submit-button">
+            <H6 style="margin-left: 1cm;">選択メニューが正しければボタンをクリックしてください</H6>
+            <button type="submit" class="btn btn-primary" name="submit" style="margin-left: 4cm;">submit</button>
+            <h6 style="margin-left:4cm; margin-top:1cm;">イメージ図</h6>
+        </div>
+
+
+        <!-- 画像を表示 -->
+        <div class="positioned-text-container">
+            <div id="text-to-hide">右のメニューを選択してください<br>メニューをクリックするとイメージ図が表示されます</div>
+        </div>
+        <div>
+            <img id="FV_img" src="{{ url_for('static', filename='images/FV_depo.png') }}" alt="FV_depo.png" width="500"
+                height="300">
+        </div>
+        <div>
+            <img id="NPER_img" src="{{ url_for('static', filename='images/NPER_depo.png') }}" alt="NPER_depo.png"
+                width="500" height="300">
+        </div>
+        <div>
+            <img id="PMT_img" src="{{ url_for('static', filename='images/PMT_depo.png') }}" alt="PMT_depo.png"
+                width="500" height="300">
+        </div>
+        <div>
+            <img id="RATE_img" src="{{ url_for('static', filename='images/RATE_depo.png') }}" alt="RATE_depo.png"
+                width="500" height="300">
+        </div>
+    </div>
+
+    <div style="margin-top: 3cm;">
+        <h5 data-img-id="FV_img" data-page-url="/FV_depo">将来の貯蓄合計額を知りたい(FV)</h5>
+        <h5 data-img-id="NPER_img" data-page-url="/NPER_depo">目標貯蓄額達成のために必要な投資期間を知りたい(NPER)</h5>
+        <h5 data-img-id="PMT_img" data-page-url="/PMT_depo">目標貯蓄額達成のために必要な毎月の投資額を知りたい(PMT)</h5>
+        <h5 data-img-id="RATE_img" data-page-url="/RATE_depo">目標貯蓄額達成のために必要な運用利回りを知りたい(RATE)</h5>
+    </div>
+</div>
+
+{% endblock %}

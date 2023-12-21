@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    /* プレースホルダーテキストの色を薄いブルーに設定 */
+    ::placeholder {
+        color: lightblue;
+    }
+
+    /* プレースホルダーテキストの色を薄いブルーに設定（特定の要素にのみ適用） */
+    #input1::placeholder {
+        color: lightblue;
+    }
+</style>
+
+<!--メニューをクリックするとボックスへカーソルが移動する------------------------------>
+<script>
+    function moveToInputField(inputId) {
+        var inputField = document.getElementById(inputId);
+
+        if (inputField) {
+            inputField.focus(); // カーソルを入力フィールドに移動
+        }
+    }
+</script>
+<!----------------------------------------------------------------------------------->
+<!-- 未入力のボックスがある場合アラートを出す -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var submitButton = document.getElementById("submit-button");
+        submitButton.addEventListener("click", function (event) {
+            event.preventDefault(); // フォームのデフォルトの送信を防ぐ
+
+            // 空の入力フィールドをチェック
+            var inputFields = document.querySelectorAll('input[type="text"]');
+            var isEmpty = false;
+
+            inputFields.forEach(function (field) {
+                if (field.value === "") {
+                    isEmpty = true;
+                    return;
+                }
+            });
+
+            if (isEmpty) {
+                alert("送信する前に全ての入力フィールドに値を入力してください。");
+            } else {
+                // 全てのフィールドが入力されていれば、フォームの送信を実行する
+                document.getElementById("investmentForm").submit();
+            }
+        });
+    });
+</script>
+<!----------------------------------------------------------------------------------------->
+
+
+{% if cumprinc %}
+<div style="position: relative;">
+    <h5 style="position: absolute; right: 2cm; top: 0;">指定期間返済元金額: {{ cumprinc }} 円</h5>
+
+</div>
+{% endif %}
+
+<div style="display: flex; ">
+    <H5 style="margin-left: 1cm;">指定期間返済元金額計算(CUMPRINC)</H5>
+    <H5 class="text-to-hide" style="margin-left: 6cm;">ボックスに値を入力してください</H5>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+
+    <div>
+        <form id="investmentForm" action="/CUMPRINC_loan" method="post">
+
+            <div style="display: flex; flex-direction: row; align-items: center; margin-top: 1cm;">
+                <input type="text" name="input1" id="input1" style="margin-left: 1cm;" placeholder="0.02"
+                    value="{{ request.form['input1'] }}">
+                <label for="input1" style="margin-left: 0.5cm;">借入利率 <小数点入力></label>
+                <div class="text-to-hide" style="margin-left: 4.1cm; cursor: pointer;"
+                    onclick="moveToInputField('input1')">←　年間借入利率を小数点で入力してください</div>
+            </div>
+            <br>
+
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <input type="text" name="input2" id="input2" style="margin-left: 1cm;" placeholder="14.4"
+                    value="{{ request.form['input2'] }}">
+                <label for="input2" style="margin-left: 0.5cm;">返済期間（年数）</label>
+                <div class="text-to-hide" style="margin-left: 5.2cm; cursor: pointer;"
+                    onclick="moveToInputField('input2')">←　返済期間を年数表示で入力してください</div>
+            </div>
+            <br>
+
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <input type="text" name="input3" id="input3" style="margin-left: 1cm;" placeholder="30000000"
+                    value="{{ request.form['input3'] }}">
+                <label for="input3" style="margin-left: 0.5cm;">借入金額</label>
+                <div class="text-to-hide" style="margin-left: 6.9cm; cursor: pointer;"
+                    onclick="moveToInputField('input3')">←　借入金額を入力してください</div>
+            </div>
+            <br>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <input type="text" name="input4" id="input4" style="margin-left: 1cm;" placeholder="0"
+                    value="{{ request.form['input4'] }}">
+                <label for="input4" style="margin-left: 0.5cm;">将来借入金残高</label>
+                <div class="text-to-hide" style="margin-left: 5.7cm; cursor: pointer;"
+                    onclick="moveToInputField('input4')">←　計算終了時の借入金残高を入力してください</div>
+            </div>
+            <br>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <input type="text" name="input5" id="input5" style="margin-left: 1cm;" placeholder="121"
+                    value="{{ request.form['input5'] }}">
+                <label for="input5" style="margin-left: 0.5cm;">指定返済スタート回（回目）</label>
+                <div class="text-to-hide" style="margin-left: 3.7cm; cursor: pointer;"
+                    onclick="moveToInputField('input5')">←　計算対象のスタート返済回（月）を入力してください</div>
+            </div>
+
+            <br>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <input type="text" name="input6" id="input6" style="margin-left: 1cm;" placeholder="132"
+                    value="{{ request.form['input6'] }}">
+                <label for="input6" style="margin-left: 0.5cm;">指定返済ラスト回（回目）</label>
+                <div class="text-to-hide" style="margin-left: 3.9cm; cursor: pointer;"
+                    onclick="moveToInputField('input6')">←　計算対象のラスト返済回（月）を入力してください</div>
+            </div>
+
+            <br>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <input type="text" name="input7" id="input7" style="margin-left: 1cm;" placeholder="0"
+                    value="{{ request.form['input7'] }}">
+                <label for="input7" style="margin-left: 0.5cm;">返済支払日 (0: 月末, 1: 月初)</label>
+                <div class="text-to-hide" style="margin-left: 3.4cm; cursor: pointer;"
+                    onclick="moveToInputField('input7')">←　借入返済が月初のときは１を、月末のときは0を入力してください
+                </div>
+            </div>
+            <br>
+
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <button id="submit-button" style="margin-left: 1cm;">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <div>
+            {% if cumprinc %}
+            <div class="graph-container">
+                {{ graph_html | safe }}
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+
+<!--グラフが表示されている間テキストを非表示にする??????????????????????????????????????-->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var graph = document.querySelector(".graph-container"); // グラフを含む要素のクラスを指定する
+
+        if (graph) {
+            var textToHide = document.querySelectorAll(".text-to-hide"); // 'text-to-hide' クラスを持つすべての要素を選択
+
+            // グラフが存在する場合、テキスト要素を非表示にする
+            textToHide.forEach(function (element) {
+                element.style.display = "none";
+            });
+        }
+    });
+</script>
+
+
+<!------------------------------------------------------------------------------------->
+
+
+
+{% endblock %}

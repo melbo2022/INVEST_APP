@@ -1,0 +1,54 @@
+body {
+  overflow-y: scroll;
+}
+
+.content-container {
+  margin-left: 2cm;
+}
+
+.submit-button {
+  padding-top: 0.5cm;
+}
+
+/* 画像を非表示にするスタイルルール */
+img {
+  display: none;
+}
+
+/* H5要素のスタイル */
+h5 {
+  height: 50px;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* グリッドコンテナのスタイル */
+.grid-container {
+  max-height: 60vh;
+  /* コンテンツが最大高さを超えた場合にスクロールバーを表示 */
+  overflow-y: auto;
+
+  display: grid;
+  /* 2列に分割 */
+  grid-template-columns: 1fr 1fr;
+  /* 列間の余白を調整 */
+  grid-gap: 1cm;
+}
+
+/* 「右のメニューを選択してください」の文字位置 */
+.positioned-text-container {
+  position: absolute;
+  top: 10cm;
+  left: 3cm;
+}
+
+/* クリックしたメニューをハイライトする */
+.highlighted-text {
+  /* ハイライトの背景色を設定 */
+  background-color: yellow;
+  /* ハイライトの横幅を制限するための幅を設定 */
+  width: 550px;
+  /* ハイライトの幅を設定可能にするために必要 */
+  display: inline-block;
+}
